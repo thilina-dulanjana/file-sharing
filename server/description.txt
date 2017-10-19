@@ -1,0 +1,2 @@
+Server will be implemented using JavaEE. Using spring framework will be easier since RequestMapping like features can be used. 
+Given 2 classes will be used to resolve requests from clients and to put the registering nodes into a map.
