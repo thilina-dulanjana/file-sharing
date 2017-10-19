@@ -1,0 +1,4 @@
+This is a web client. HTML/JavaScript(JQuery) will be used.
+Client will contact server with an HTTP requests/responses.
+Initially client will receive 2 connected nodes. Those node details will be stored in a JSON object. After that for any file search request this JSON object will be used as the routing table. 
+In the search request body a JSON object needs to be attached as the data collector.(ie:record all visited nodes and other parameters)
