@@ -39,40 +39,12 @@ public class Client{
             DatagramSocket sock = new DatagramSocket(port);
             sock.send(pkt);
 
-            while(true){
-                /**Resolve responses*/
-                byte[] buffer = new byte[65536];
-                DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
-                System.out.println("in created");
-                sock.receive(incoming);
-                System.out.println("incoming");
+            ClientInterface clientInterface = new ClientInterface();
+            clientInterface.start();
 
-                byte[] data = incoming.getData();
-                s = new String(data, 0, incoming.getLength());
+            SocketListner socketListner = new SocketListner();
+            socketListner.start();
 
-                //echo the details of incoming data - client ip : client port - client message
-                echo(incoming.getAddress().getHostAddress() + " : " + incoming.getPort() + " - " + s);
-
-                StringTokenizer st = new StringTokenizer(s, " ");
-                String length = st.nextToken();
-                String command = st.nextToken();
-
-                if(command.equals("REGOK")){
-
-                }else if(command.equals("UNROK")){
-
-                }else if(command.equals("JOINOK")){
-
-                }else if(command.equals("LEAVEOK")){
-
-                }else if(command.equals("SEROK")){
-
-                }else if(command.equals("ERROR")){
-
-                }else{
-                    //invalid command
-                }
-            }
         }catch(Exception ex){
             ex.printStackTrace();
         }
