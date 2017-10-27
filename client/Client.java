@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.lang.Exception;
 import java.lang.Integer;
 import java.lang.String;
@@ -7,12 +8,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Client{
 
+    private static DatagramSocket socket;
     public static void main(String[] args) {
         String s, username, ip;
         InetAddress inetAddress;
@@ -37,6 +40,7 @@ public class Client{
             DatagramPacket pkt = new DatagramPacket(buf, buf.length, inetAddress, 55555);
             pkt.setData(buf);
             DatagramSocket sock = new DatagramSocket(port);
+            setSocket(sock);
             sock.send(pkt);
 
             ClientInterface clientInterface = new ClientInterface();
@@ -71,8 +75,32 @@ public class Client{
         return ip;
     }
 
+    public void sendToClient(String message, String destIp, String destPort){
+        try {
+            DatagramSocket sock = getSocket();
+            byte[] buf = new byte[65507];
+            buf = message.getBytes();
+            InetAddress inetAddress = InetAddress.getByName(destIp);
+            DatagramPacket pkt = new DatagramPacket(buf, buf.length, inetAddress, Integer.parseInt(destPort));
+            pkt.setData(buf);
+            sock.send(pkt);
+        }catch(UnknownHostException ex){
+            ex.printStackTrace();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+    }
+
     public static void echo(String msg)
     {
         System.out.println(msg);
+    }
+
+    public static DatagramSocket getSocket() {
+        return socket;
+    }
+
+    public static void setSocket(DatagramSocket socket) {
+        Client.socket = socket;
     }
 }
